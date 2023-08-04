@@ -1,0 +1,87 @@
+exclude: 'migrations*'
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks.git
+    rev: v4.4.0
+    hooks:
+    -   id: detect-aws-credentials
+    -   id: trailing-whitespace
+        language_version: python3
+    -   id: end-of-file-fixer
+        files: ^tf|-|\.(py|env|yml|yaml|pem|key|mock)$
+    -   id: detect-private-key
+        files: ^(?!\.?git-crypt)
+        exclude: ^docker/templates/id_rsa$
+    -   id: check-merge-conflict
+        files: ^tf|-|\.(py|tfvars|tf|tfenv|env|yml|yaml|pem|key|mock)$
+    -   id: check-added-large-files
+        files: ^tf|-|\.(py|env|yml|yaml)$
+    -   id: check-case-conflict
+    -   id: check-json
+        language_version: python3
+    -   id: check-xml
+        language_version: python3
+    -   id: check-yaml
+        language_version: python3
+    -   id: check-ast
+        language_version: python3
+    -   id: check-docstring-first
+    -   id: pretty-format-json
+        args: ['--autofix']
+    -   id: debug-statements
+    -   id: requirements-txt-fixer
+    -   id: name-tests-test
+        args: ['--pytest-test-first']
+    -   id: file-contents-sorter
+    -   id: sort-simple-yaml
+    -   id: mixed-line-ending
+-   repo: https://github.com/PyCQA/flake8
+    rev: 6.0.0
+    hooks:
+    -   id: flake8
+        additional_dependencies: [
+            'flake8-blind-except',
+            'flake8-bugbear',
+            'flake8-comprehensions',
+            'flake8-implicit-str-concat',
+            'pydocstyle>=5.0.0',
+        ]
+        args:
+        - --max-line-length=120
+        exclude: ^tests/test_cases/no_closing_bracket\.py$
+-   repo: https://github.com/pre-commit/mirrors-pylint.git
+    rev: v2.3.1
+    hooks:
+    -   id: pylint
+        language_version: python3
+        exclude: ^migrations/.*\.py$
+        args:
+        - --rcfile=.pylintrc
+        - --errors-only
+        - --disable=no-name-in-module,import-error,no-member
+        - --ignore=settings_test, migrations
+-   repo: https://github.com/FalconSocial/pre-commit-python-sorter.git
+    rev: b57843b0b874df1d16eb0bef00b868792cb245c2
+    hooks:
+    -   id: python-import-sorter
+        args:
+        - --silent-overwrite
+        language_version: python3
+-   repo: https://github.com/detailyang/pre-commit-shell.git
+    rev: 1.0.5
+    hooks:
+    -   id: shell-lint
+        exclude: ^script/wait-for-it.sh$
+        args:
+        - --exclude=SC1072,SC1073,SC2068
+-   repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+    rev: v1.3.2
+    hooks:
+    -   id: python-safety-dependencies-check
+-   repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v2.0.2
+    hooks:
+    -   id: autopep8
+        args:
+        - -i
+        - --max-line-length=120
+        language_version: python3
